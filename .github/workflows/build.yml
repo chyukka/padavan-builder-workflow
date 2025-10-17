@@ -20,6 +20,7 @@ jobs:
         . <(cat variables build.config)
         PADAVAN_THEMES=""
         ENABLE_XRAY=yes
+        PADAVAN_REPO="https://gitlab.com/hadzhioglu/padavan-ng.git"  # Убедитесь, что это правильный URL
         for v in "${!PADAVAN_@}" "${!CONFIG_@}"; do
           echo "$v=${!v}" >> $GITHUB_ENV
         done
@@ -29,7 +30,7 @@ jobs:
 
     - name: Download sources and toolchain
       run: |
-        git config --global --add safe.directory $(pwd)
+        git config --global --add safe.directory /github/workspace
         git clone -b "$PADAVAN_BRANCH" "$PADAVAN_REPO"
         git -C padavan-ng checkout "$PADAVAN_COMMIT"
         wget -qO- "$PADAVAN_TOOLCHAIN_URL" | tar -C padavan-ng --zstd -xf -
