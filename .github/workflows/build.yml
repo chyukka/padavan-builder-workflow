@@ -24,9 +24,12 @@ jobs:
           echo "$v=${!v}" >> $GITHUB_ENV
         done
 
+    - name: Check current directory
+      run: pwd
+
     - name: Download sources and toolchain
       run: |
-        git config --global --add safe.directory /github/workspace
+        git config --global --add safe.directory $(pwd)
         git clone -b "$PADAVAN_BRANCH" "$PADAVAN_REPO"
         git -C padavan-ng checkout "$PADAVAN_COMMIT"
         wget -qO- "$PADAVAN_TOOLCHAIN_URL" | tar -C padavan-ng --zstd -xf -
